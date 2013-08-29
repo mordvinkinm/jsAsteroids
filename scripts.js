@@ -1,3 +1,11 @@
+var Random = {
+    randRange: function(from, to){
+        return (to - from) * Math.random() + from;
+    },
+
+    random: Math.random
+};
+
 // constants for user interface
 var WIDTH = 800;
 var HEIGHT = 600;
@@ -42,38 +50,44 @@ function ImageInfo(center, size, radius, lifespan, animated) {
 // debris images - debris1_brown.png, debris2_brown.png, debris3_brown.png, debris4_brown.png
 //                 debris1_blue.png, debris2_blue.png, debris3_blue.png, debris4_blue.png, debris_blend.png
 var debris_info = new ImageInfo([320, 240], [640, 480]);
-var debris_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/debris2_blue.png");
+var debris_image = new Image();
+debris_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/debris2_blue.png';
 
 // nebula images - nebula_brown.png, nebula_blue.png
 var nebula_info = new ImageInfo([400, 300], [800, 600]);
-var nebula_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/nebula_blue.png");
+var nebula_image = new Image();
+nebula_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/nebula_blue.png';
 
 // splash image
 var splash_info = new ImageInfo([200, 150], [400, 300]);
-var splash_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/splash.png");
+var splash_image = new Image();
+splash_image = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/splash.png';
 
 // ship image
 var ship_info = new ImageInfo([45, 45], [90, 90], 35);
-var ship_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/double_ship.png");
+var ship_image = new Image();
+ship_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/double_ship.png';
 
 // missile image - shot1.png, shot2.png, shot3.png
 var missile_info = new ImageInfo([5, 5], [10, 10], 3, 50);
-var missile_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/shot2.png");
+var missile_image = new Image();
+missle_image = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/shot2.png';
 
 // asteroid images - asteroid_blue.png, asteroid_brown.png, asteroid_blend.png
 var asteroid_info = new ImageInfo([45, 45], [90, 90], 40);
-var asteroid_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/asteroid_blue.png");
+var asteroid_image = new Image();
+asteroid_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/asteroid_blue.png';
 
 // animated explosion - explosion_orange.png, explosion_blue.png, explosion_blue2.png, explosion_alpha.png
 var explosion_info = new ImageInfo([64, 64], [128, 128], 17, 24, true);
-var explosion_image = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/explosion_alpha.png");
+var explosion_image = new Image();
+explosion_image = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/explosion_alpha.png';
 
 // sound assets purchased from sounddogs.com, please do not redistribute
-var soundtrack = simplegui.load_sound("http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.mp3");
-var missile_sound = simplegui.load_sound("http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missile.mp3");
-//var missile_sound.set_volume(.5)
-var ship_thrust_sound = simplegui.load_sound("http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.mp3");
-var explosion_sound = simplegui.load_sound("http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/explosion.mp3");
+var soundtrack;
+var missile_sound;
+var shipThrustSound;
+var explosion_sound;
 
 // helper functions to handle transformations
 function angle_to_vector(ang, r) {
@@ -110,11 +124,10 @@ function Ship(pos, vel, angle, image, info) {
 
     self.draw = function (self, canvas) {
         if (self.thrust == true) {
-            ship_thrust_sound.play();
+            shipThrustSound.play();
             var sprite_center = (ship_info.get_center()[0] + ship_info.size[0], ship_info.center[1]);
             canvas.draw_image(ship_image, sprite_center, ship_info.size, self.pos, ship_info.size, self.angle);
         } else {
-            ship_thrust_sound.rewind();
             canvas.draw_image(ship_image, ship_info.center, ship_info.size, self.pos, ship_info.size, self.angle);
         }
 
@@ -130,7 +143,6 @@ function Ship(pos, vel, angle, image, info) {
 
         if (lives <= 0) {
             game_over = true;
-            ship_thrust_sound.rewind();
         } else {
             self.invulnerability = RESPAWN_INVULNERABILITY;
         }
@@ -245,7 +257,6 @@ function Sprite(pos, vel, ang, ang_vel, image, info, sound, cyclic, actual_size,
     self.age = 0;
     self.cyclic = cyclic && cyclic == true;
     if (sound) {
-        sound.rewind();
         sound.play();
     }
 
@@ -285,7 +296,6 @@ function Sprite(pos, vel, ang, ang_vel, image, info, sound, cyclic, actual_size,
 }
 
 function Explosion(extendSprite, pos) {
-    explosion_sound.rewind();
     explosion_sound.play();
     Sprite.__init__(self, pos, (0, 0), 0, 0, explosion_image, explosion_info, None, false);
 
@@ -339,15 +349,15 @@ function Explosion(extendSprite, pos) {
 
                 for (rock in rocks) {
                     if (dist(missle[1].pos, rock.pos) <= missle[1].radius + rock.radius) {
-                        explosions.append(Explosion(rock.pos));
+                        explosions.append(new Explosion(rock.pos));
                         rocks.remove(rock);
                         missiles.remove(missle);
 
                         // determine if big rock exploded
-                        if (rock.radius == asteroid_info.get_radius()) {
-                            pos1 = (rock.pos[0] + random.randrange(-10, 10), rock.pos[1] + random.randrange(-10, 10));
-                            pos2 = (rock.pos[0] + random.randrange(-10, 10), rock.pos[1] + random.randrange(-10, 10));
-                            pos3 = (rock.pos[0] + random.randrange(-10, 10), rock.pos[1] + random.randrange(-10, 10));
+                        if (rock.radius == asteroid_info.radius) {
+                            pos1 = (rock.pos[0] + Random.randRange(-10, 10), rock.pos[1] + Random.randRange(-10, 10));
+                            pos2 = (rock.pos[0] + Random.randRange(-10, 10), rock.pos[1] + Random.randRange(-10, 10));
+                            pos3 = (rock.pos[0] + Random.randRange(-10, 10), rock.pos[1] + Random.randRange(-10, 10));
 
                             spawn_rock(pos1, false);
                             spawn_rock(pos2, false);
@@ -392,7 +402,7 @@ function Explosion(extendSprite, pos) {
             (SLOWMO_TOP_LEFT[0] + MAX_SLOW_MO, SLOWMO_TOP_LEFT[1]),
             (SLOWMO_TOP_LEFT[0] + MAX_SLOW_MO, SLOWMO_TOP_LEFT[1] + SLOWMO_BAR_HEIGHT),
             (SLOWMO_TOP_LEFT[0], SLOWMO_TOP_LEFT[1] + SLOWMO_BAR_HEIGHT)],
-            1, "Red")
+            1, "Red");
 
         if (slowmo < MAX_SLOW_MO || time % 14 >= 7) {
             canvas.draw_polygon([
@@ -408,22 +418,22 @@ function Explosion(extendSprite, pos) {
 }
 // timer handler that spawns a rock
 function spawn_rock(rock_pos, large) {
-    rock_pos = rock_pos ? rock_pos : random.randrange(0, WIDTH), random.randrange(0, HEIGHT);
-    if (random.randrange(0, 100) % 2 == 0) {
+    rock_pos = rock_pos ? rock_pos : Random.randRange(0, WIDTH), Random.randRange(0, HEIGHT);
+    if (Random.randRange(0, 100) % 2 == 0) {
         mul1 = ROCK_VEL_MULTIPLIER;
     } else {
         mul1 = -ROCK_VEL_MULTIPLIER;
     }
-    if (random.randrange(0, 100) % 2 == 0) {
+    if (Random.randRange(0, 100) % 2 == 0) {
         mul2 = ROCK_VEL_MULTIPLIER;
     } else {
         mul2 = -ROCK_VEL_MULTIPLIER;
     }
 
     if (!large || large == true) {
-        rocks.append(new Sprite(rock_pos, (random.random() * mul1, random.random() * mul2), math.pi, 0, asteroid_image, asteroid_info, None, true))
+        rocks.append(new Sprite(rock_pos, (Random.random() * mul1, Random.random() * mul2), Math.PI, 0, asteroid_image, asteroid_info, None, true))
     } else {
-        rocks.append(new Sprite(rock_pos, (random.random() * mul1, random.random() * mul2), math.pi, 0, asteroid_image, asteroid_info, None, true, (45, 45), 20))
+        rocks.append(new Sprite(rock_pos, (Random.random() * mul1, Random.random() * mul2), Math.PI, 0, asteroid_image, asteroid_info, None, true, (45, 45), 20))
     }
 }
 
@@ -431,21 +441,17 @@ function on_key_down(key) {
     if (key == simplegui.KEY_MAP["up"]) {
         my_ship.thrust = true;
     } else if (key == simplegui.KEY_MAP["down"]) {
-// insert stop code there
+        // insert stop code there
 
     } else if (key == simplegui.KEY_MAP["left"]) {
-        my_ship.angle_vel = -math.pi * 0.03;
+        my_ship.angle_vel = -Math.PI * 0.03;
     } else if (key == simplegui.KEY_MAP["right"]) {
-        my_ship.angle_vel = math.pi * 0.03;
+        my_ship.angle_vel = Math.PI * 0.03;
     } else if (key == simplegui.KEY_MAP["space"]) {
         my_ship.shooting = true;
     } else if (key == simplegui.KEY_MAP["e"]) {
         if (slowmo > 0) {
-            if (slowmo_enabled == true) {
-                slowmo_enabled = false;
-            } else {
-                slowmo_enabled = true
-            }
+            slowmo_enabled = slowmo_enabled != true;
         }
     }
 }
@@ -454,7 +460,7 @@ function on_key_up(key) {
     if (key == simplegui.KEY_MAP["up"]) {
         my_ship.thrust = false;
     } else if (key == simplegui.KEY_MAP["down"]) {
-// insert stop code there
+        // insert stop code there
     } else if (key == simplegui.KEY_MAP["left"]) {
         my_ship.angle_vel = 0;
     } else if (key == simplegui.KEY_MAP["right"]) {
@@ -476,7 +482,7 @@ function on_click(position) {
 
 function respawn() {
     var my_ship = new Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info);
-    my_ship.angle = random.random() * Math.PI;
+    my_ship.angle = Random.random() * Math.PI;
     rocks = [];
     missiles = [];
     explosions = [];
@@ -485,23 +491,16 @@ function respawn() {
     slowmo = 0;
 }
 
-// initialize frame
-frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT);
+function init() {
+    soundtrack = document.getElementById('soundtrack');
+    missile_sound = document.getElementById('missileSound');
+    //missile_sound.volume = 0.5;
+    shipThrustSound = document.getElementById('shipThrustSound');
+    explosion_sound = document.getElementById('explosion_sound');
 
-// initialize first respawn
-respawn();
+    respawn();
 
-// register handlers
-frame.set_draw_handler(draw);
-frame.set_keydown_handler(on_key_down);
-frame.set_keyup_handler(on_key_up);
-frame.set_mouseclick_handler(on_click);
+    setInterval(spawn_rock, 2000);
 
-timer = simplegui.create_timer(2000.0, spawn_rock);
-
-// get things rolling
-timer.start();
-frame.start();
-
-soundtrack.play();
-/**/
+    soundtrack.play();
+}
