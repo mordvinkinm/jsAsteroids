@@ -186,5 +186,5 @@ function init() {
 
 //    setInterval(spawn_rock, 2000);
 
-//    soundtrack.play();
+    soundtrack.play();
 }
