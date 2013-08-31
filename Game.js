@@ -1,4 +1,5 @@
 // constants for user interface
+var FPS = 60;
 var WIDTH = 800;
 var HEIGHT = 600;
 var SLOWMO_BAR_HEIGHT = 20;
@@ -34,42 +35,36 @@ var my_ship;
 //                 debris1_blue.png, debris2_blue.png, debris3_blue.png, debris4_blue.png, debris_blend.png
 var debris_info = new ImageInfo([], []);
 var debris_image = new Image();
-debris_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/debris2_blue.png';
+debris_image.src = 'res/debris2_blue.png';
 
 // nebula images - nebula_brown.png, nebula_blue.png
 var nebula_info = new ImageInfo([400, 300], [800, 600]);
 var nebula_image = new Image();
-nebula_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/nebula_blue.png';
-
-// splash image
-var splash_info = new ImageInfo([200, 150], [400, 300]);
-var splash_image = new Image();
-splash_image = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/splash.png';
+nebula_image.src = 'res/nebula_blue.png';
 
 // ship image
 var ship_info = new ImageInfo([45, 45], [90, 90], 35);
 var ship_image = new Image();
-ship_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/double_ship.png';
+ship_image.src = 'res/double_ship.png';
 
 // missile image - shot1.png, shot2.png, shot3.png
 var missile_info = new ImageInfo([5, 5], [10, 10], 3, 50);
 var missile_image = new Image();
-missle_image = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/shot2.png';
+missle_image = 'res/shot2.png';
 
 // asteroid images - asteroid_blue.png, asteroid_brown.png, asteroid_blend.png
 var asteroid_info = new ImageInfo([45, 45], [90, 90], 40);
 var asteroid_image = new Image();
-asteroid_image.src = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/asteroid_blue.png';
+asteroid_image.src = 'res/asteroid_blue.png';
 
 // animated explosion - explosion_orange.png, explosion_blue.png, explosion_blue2.png, explosion_alpha.png
 var explosion_info = new ImageInfo([64, 64], [128, 128], 17, 24, true);
 var explosion_image = new Image();
-explosion_image = 'http://commondatastorage.googleapis.com/codeskulptor-assets/lathrop/explosion_alpha.png';
+explosion_image = 'res/explosion_alpha.png';
 
 // sound assets purchased from sounddogs.com, please do not redistribute
 var soundtrack;
 var missile_sound;
-var shipThrustSound;
 var explosion_sound;
 
 var canvas;
@@ -77,12 +72,12 @@ var canvas;
 // helper functions to handle transformations
 function angle_to_vector(ang, r) {
     r = r ? r : 1;
-    return [r * Math.cos(ang), r * Math.sin(ang)];
+    return {x: r * Math.cos(ang), y: r * Math.sin(ang)};
 }
 
 function dist(p, q) {
-    q = q ? q : [0, 0];
-    return Math.sqrt(Math.pow(p[0] - q[0], 2) + Math.pow(p[1] - q[1], 2));
+    if (!q) q = {x: 0, y: 0};
+    return Math.sqrt(Math.pow(p.x - q.x, 2) + Math.pow(p.y - q.y, 2));
 }
 
 // storage for sprites
@@ -111,35 +106,34 @@ function spawn_rock(rock_pos, large) {
     }
 }
 
-function on_key_down(key) {
-    if (key == simplegui.KEY_MAP["up"]) {
+function on_key_down(evt) {
+    var key = evt.keyIdentifier;
+    if (key == "Up") {
         my_ship.thrust = true;
-    } else if (key == simplegui.KEY_MAP["down"]) {
-        // insert stop code there
-
-    } else if (key == simplegui.KEY_MAP["left"]) {
+    } else if (key == "Down") {
+    } else if (key == "Left") {
         my_ship.angle_vel = -Math.PI * 0.03;
-    } else if (key == simplegui.KEY_MAP["right"]) {
+    } else if (key == "Right") {
         my_ship.angle_vel = Math.PI * 0.03;
-    } else if (key == simplegui.KEY_MAP["space"]) {
+    } else if (key == "Space") {
         my_ship.shooting = true;
-    } else if (key == simplegui.KEY_MAP["e"]) {
+    } else if (key == "e") {
         if (slowmo > 0) {
             slowmo_enabled = slowmo_enabled != true;
         }
     }
 }
 
-function on_key_up(key) {
-    if (key == simplegui.KEY_MAP["up"]) {
+function on_key_up(evt) {
+    var key = evt.keyIdentifier;
+    if (key == "Up") {
         my_ship.thrust = false;
-    } else if (key == simplegui.KEY_MAP["down"]) {
-        // insert stop code there
-    } else if (key == simplegui.KEY_MAP["left"]) {
+    } else if (key == "Down") {
+    } else if (key == "Left") {
         my_ship.angle_vel = 0;
-    } else if (key == simplegui.KEY_MAP["right"]) {
+    } else if (key == "Right") {
         my_ship.angle_vel = 0;
-    } else if (key == simplegui.KEY_MAP["space"]) {
+    } else if (key == "Space") {
         my_ship.shooting = false;
     }
 }
@@ -155,7 +149,14 @@ function on_click(position) {
 }
 
 function respawn() {
-    my_ship = new Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info);
+    my_ship = new Ship(self, {
+        x: WIDTH / 2,
+        y: HEIGHT / 2
+    }, {
+        x: 0,
+        y: 0
+    }, 0, ship_image, ship_info);
+
     my_ship.angle = Random.random() * Math.PI;
     rocks = [];
     missiles = [];
@@ -165,21 +166,23 @@ function respawn() {
     slowmo = 0;
 }
 
-function redraw(){
+function redraw() {
     canvas.drawImage(nebula_image, 0, 0);
+    my_ship.update();
+    my_ship.draw(canvas);
 }
 
 function init() {
-    canvas = document.getElementById('mainCanvas').getContext("2d");
+    LibCanvas.extract();
+    canvas = document.getElementById('mainCanvas').getContext("2d-libcanvas");
 
     soundtrack = document.getElementById('soundtrack');
     missile_sound = document.getElementById('missileSound');
     //missile_sound.volume = 0.5;
-    shipThrustSound = document.getElementById('shipThrustSound');
     explosion_sound = document.getElementById('explosion_sound');
 
-    setInterval(redraw, 100);
-//    respawn();
+    setInterval(redraw, 1000 / 60);
+    respawn();
 
 //    setInterval(spawn_rock, 2000);
 

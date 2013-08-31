@@ -1,4 +1,6 @@
 function Sprite(pos, vel, ang, ang_vel, image, info, sound, cyclic, actual_size, actual_radius) {
+    var self = this;
+
     self.pos = [pos[0], pos[1]];
     self.vel = [vel[0], vel[1]];
     self.angle = ang;

@@ -2,7 +2,7 @@ function Explosion(extendSprite, pos) {
     explosion_sound.play();
     Sprite.__init__(self, pos, (0, 0), 0, 0, explosion_image, explosion_info, None, false);
 
-    function destroy(self) {
+    function destroy() {
         explosions.remove(self);
     }
 
