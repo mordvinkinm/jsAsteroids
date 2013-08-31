@@ -35,32 +35,32 @@ var my_ship;
 //                 debris1_blue.png, debris2_blue.png, debris3_blue.png, debris4_blue.png, debris_blend.png
 var debris_info = new ImageInfo([], []);
 var debris_image = new Image();
-debris_image.src = 'res/debris2_blue.png';
+debris_image.src = 'res/sprites/debris2_blue.png';
 
 // nebula images - nebula_brown.png, nebula_blue.png
 var nebula_info = new ImageInfo([400, 300], [800, 600]);
 var nebula_image = new Image();
-nebula_image.src = 'res/nebula_blue.png';
+nebula_image.src = 'res/sprites/nebula_blue.png';
 
 // ship image
 var ship_info = new ImageInfo([45, 45], [90, 90], 35);
 var ship_image = new Image();
-ship_image.src = 'res/double_ship.png';
+ship_image.src = 'res/sprites/double_ship.png';
 
 // missile image - shot1.png, shot2.png, shot3.png
 var missile_info = new ImageInfo([5, 5], [10, 10], 3, 50);
 var missile_image = new Image();
-missle_image = 'res/shot2.png';
+missle_image = 'res/sprites/shot2.png';
 
 // asteroid images - asteroid_blue.png, asteroid_brown.png, asteroid_blend.png
 var asteroid_info = new ImageInfo([45, 45], [90, 90], 40);
 var asteroid_image = new Image();
-asteroid_image.src = 'res/asteroid_blue.png';
+asteroid_image.src = 'res/sprites/asteroid_blue.png';
 
 // animated explosion - explosion_orange.png, explosion_blue.png, explosion_blue2.png, explosion_alpha.png
 var explosion_info = new ImageInfo([64, 64], [128, 128], 17, 24, true);
 var explosion_image = new Image();
-explosion_image = 'res/explosion_alpha.png';
+explosion_image = 'res/sprites/explosion_alpha.png';
 
 // sound assets purchased from sounddogs.com, please do not redistribute
 var soundtrack;
