@@ -3,15 +3,15 @@
 <head>
     <title></title>
 
-    <script type="text/javascript" src="Game.js"></script>
     <script type="text/javascript" src="Explosion.js"></script>
     <script type="text/javascript" src="ImageInfo.js"></script>
-    <script type="text/javascript" src="Random.js"></script>
+    <script type="text/javascript" src="Structures.js"></script>
     <script type="text/javascript" src="Ship.js"></script>
     <script type="text/javascript" src="Sprite.js"></script>
+    <script type="text/javascript" src="Game.js"></script>
 
 </head>
-<body onload="init()" onkeydown="on_key_down()" onkeyup="on_key_up()" onclick="on_click()">
+<body onload="init()" onkeydown="on_key_down(event)" onkeyup="on_key_up(event)" onclick="on_click()">
 
 <audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.mp3"
        id="soundtrack"></audio>
