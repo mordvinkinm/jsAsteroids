@@ -3,16 +3,26 @@
 <head>
     <title></title>
 
-    <script type="text/javascript" src="scripts.js"></script>
+    <script type="text/javascript" src="Game.js"></script>
+    <script type="text/javascript" src="Explosion.js"></script>
+    <script type="text/javascript" src="ImageInfo.js"></script>
+    <script type="text/javascript" src="Random.js"></script>
+    <script type="text/javascript" src="Ship.js"></script>
+    <script type="text/javascript" src="Sprite.js"></script>
+
 </head>
 <body onload="init()" onkeydown="on_key_down()" onkeyup="on_key_up()" onclick="on_click()">
 
-    <audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.mp3" id="soundtrack"></audio>
-    <audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missile.mp3" id="missile_sound"></audio>
-    <audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.mp3" id="ship_thrust_sound"></audio>
-    <audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/explosion.mp3" id="explosion_sound"></audio>
+<audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.mp3"
+       id="soundtrack"></audio>
+<audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missile.mp3"
+       id="missile_sound"></audio>
+<audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.mp3"
+       id="ship_thrust_sound"></audio>
+<audio src="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/explosion.mp3"
+       id="explosion_sound"></audio>
 
-    <canvas width="800" height="600" style="width: 800px; height: 600px;" id="mainCanvas"></canvas>
+<canvas width="800" height="600" style="width: 800px; height: 600px;" id="mainCanvas"></canvas>
 
 </body>
 </html>
