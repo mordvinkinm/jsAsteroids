@@ -181,7 +181,7 @@ function init() {
     //missile_sound.volume = 0.5;
     explosion_sound = document.getElementById('explosion_sound');
 
-    setInterval(redraw, 1000 / 60);
+    setInterval(redraw, 1000 / FPS);
     respawn();
 
 //    setInterval(spawn_rock, 2000);
