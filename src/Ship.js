@@ -44,22 +44,28 @@ function Ship(game, pos, vel, angle, image, info) {
     self.destroy = function () {
         game.lives -= 1;
 
-        //explosions.push(new Explosion(self.pos));
+        explosions.push(new Sprite(explosion_img, self.pos, {
+            sound: explosion_sound,
+            animated: true
+        }));
 
-        /*if (lives <= 0) {
-         game.game_over = true;
-         } else {
-         self.invulnerability = RESPAWN_INVULNERABILITY;
-         }*/
+        if (lives <= 0) {
+            game_over = true;
+        } else {
+            self.invulnerability = RESPAWN_INVULNERABILITY;
+        }
     };
 
     self.check_collision = function () {
-        for (var rock in rocks) {
-            var dst = Helpers.dist(self.pos, rock.pos);
-            if (dst <= self.radius + rock.radius) {
+        for (var i = 0; i < rocks.length; i++) {
+            var dst = Helpers.dist(self.pos, rocks[i].pos);
+            if (dst <= self.radius + rocks[i].radius) {
                 if (self.invulnerability <= 0) {
                     self.destroy();
-                    rocks.remove(rock);
+                    //rocks.remove(rocks[i]);
+                    rocks[i] = rocks[rocks.length - 1];
+                    rocks.pop();
+                    i--;
                 }
             }
         }
