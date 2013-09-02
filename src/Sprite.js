@@ -8,10 +8,8 @@ function Sprite(img, pos, params) {
     self.vel = params && params.vel ? { x: params.vel.x, y: params.vel.y } : { x: 0, y: 0};
     self.angle = params && params.angle ? params.angle : 0;
     self.angle_vel = params && params.angle_vel ? params.angle_vel : 0;
-
-    /*self.actual_size = (!actual_size || actual_size == [-1, -1]) ? img.size : actual_size;
-
-     self.radius = (!actual_radius || actual_radius == -1) ? img.radius : actual_radius;*/
+    self.actual_size = img.size;
+    self.radius = img.radius;
 
     self.lifespan = img.lifespan;
     self.animated = img.animated;
