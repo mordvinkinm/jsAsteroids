@@ -1,63 +1,66 @@
-function Sprite(pos, vel, ang, ang_vel, image, info, sound, cyclic, actual_size, actual_radius) {
+function Sprite(img, pos, params) {
     var self = this;
 
-    self.pos = [pos[0], pos[1]];
-    self.vel = [vel[0], vel[1]];
-    self.angle = ang;
-    self.angle_vel = ang_vel;
-    self.image = image;
-    self.image_center = info.center();
-    self.image_size = info.size;
-    if (!actual_size || actual_size == [-1, -1]) {
-        self.actual_size = info.size;
-    } else {
-        self.actual_size = actual_size;
-    }
+    self.image = img.image;
+    self.image_center = img.center;
+    self.image_size = img.size;
+    self.pos = { x: pos.x, y: pos.y };
+    self.vel = params && params.vel ? { x: params.vel.x, y: params.vel.y } : { x: 0, y: 0};
+    self.angle = params && params.angle ? params.angle : 0;
+    self.angle_vel = params && params.angle_vel ? params.angle_vel : 0;
 
-    if (!actual_radius || actual_radius == -1) {
-        self.radius = info.radius;
-    } else {
-        self.radius = actual_radius;
-    }
+    /*self.actual_size = (!actual_size || actual_size == [-1, -1]) ? img.size : actual_size;
 
-    self.lifespan = info.lifespan;
-    self.animated = info.animated;
+    self.radius = (!actual_radius || actual_radius == -1) ? img.radius : actual_radius;*/
+
+    self.lifespan = img.lifespan;
+    self.animated = img.animated;
     self.age = 0;
-    self.cyclic = cyclic && cyclic == true;
-    if (sound) {
-        sound.play();
+    self.cyclic = params && params.cyclic && params.cyclic == true;
+    if (params && params.sound) {
+        params.sound.play();
     }
 
     function draw(canvas) {
         if (self.animated == true) {
-            sprite_center = (self.image_center[0] + self.age * self.image_size[0], self.image_center[1]);
-            canvas.draw_image(self.image, sprite_center, self.image_size, self.pos, self.actual_size, self.angle);
+            var sprite_center = {x: self.image_center.x + self.age * self.image_size.x, y: self.image_center.y};
+            canvas.drawImage({
+                image: self.image,
+                draw: new Rectangle({center: self.pos, size: self.actual_size}),
+                crop: new Rectangle({center: sprite_center, size: self.image_size}),
+                angle: self.angle
+            });
         } else {
-            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.actual_size, self.angle);
+            canvas.drawImage({
+                image: self.image,
+                crop: new Rectangle({center: self.image_center, size: self.image_size}),
+                draw: new Rectangle({center: self.pos, size: self.actual_size}),
+                angle: self.angle
+            });
         }
     }
 
-    function update(self) {
+    function update() {
         if (self.age > self.lifespan) {
             self.destroy();
         }
 
         self.age += 1;
 
-        self.pos[0] += self.vel[0];
-        self.pos[1] += self.vel[1];
+        self.pos.x += self.vel.x;
+        self.pos.y += self.vel.y;
 
         if (self.cyclic == true) {
-            if (self.pos[0] > WIDTH) {
-                self.pos[0] = 0;
-            } else if (self.pos[0] < 0) {
-                self.pos[0] = WIDTH;
+            if (self.pos.x > WIDTH) {
+                self.pos.x = 0;
+            } else if (self.pos.x < 0) {
+                self.pos.x = WIDTH;
             }
 
-            if (self.pos[1] > HEIGHT) {
-                self.pos[1] = 0;
-            } else if (self.pos[1] < 0) {
-                self.pos[1] = HEIGHT;
+            if (self.pos.y > HEIGHT) {
+                self.pos.y = 0;
+            } else if (self.pos.y < 0) {
+                self.pos.y = HEIGHT;
             }
         }
     }

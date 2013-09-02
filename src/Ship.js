@@ -21,25 +21,23 @@ function Ship(game, pos, vel, angle, image, info) {
         if (self.thrust == true) {
             self.shipThrustSound.play();
             canvas.drawImage({
-                image: ship_image,
+                image: ship_img.image,
                 draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90)}),
                 crop: new Rectangle(90, 0, 90, 90),
-                //center: new Point(self.pos.x, self.pos.y),
                 angle: self.angle
             });
         } else {
             self.shipThrustSound.pause();
             canvas.drawImage({
-                image: ship_image,
+                image: ship_img.image,
                 draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90)}),
                 crop: new Rectangle(0, 0, 90, 90),
-                //center: new Point(self.pos.x, self.pos.y),
                 angle: self.angle
             });
         }
 
 //        if (self.invulnerability > 0 && self.invulnerability % 5 == 0) {
-//            canvas.draw_circle(self.pos, ship_info.radius + 10.0, 1, "White");
+//            canvas.draw_circle(self.pos, ship_img.radius + 10.0, 1, "White");
 //        }
     };
 
@@ -55,17 +53,17 @@ function Ship(game, pos, vel, angle, image, info) {
          }*/
     };
 
-    /*self.check_collision = function (self) {
-     for (var rock in rocks) {
-     var dst = dist(self.pos, rock.pos);
-     if (dst <= self.radius + rock.radius) {
-     if (self.invulnerability <= 0) {
-     self.destroy();
-     rocks.remove(rock);
-     }
-     }
-     }
-     };*/
+    self.check_collision = function () {
+        for (var rock in rocks) {
+            var dst = dist(self.pos, rock.pos);
+            if (dst <= self.radius + rock.radius) {
+                if (self.invulnerability <= 0) {
+                    self.destroy();
+                    rocks.remove(rock);
+                }
+            }
+        }
+    };
 
     self.get_speed = function () {
         return Math.sqrt(Math.pow(self.vel.x, 2.0) + Math.pow(self.vel.y, 2.0))
@@ -118,22 +116,26 @@ function Ship(game, pos, vel, angle, image, info) {
             self.pos.y = HEIGHT;
         }
 
-//        if (self.shooting == true && (time - self.last_shooting > TIME_BETWEEN_SHOOTING)) {
-//            missle_vector = angle_to_vector(self.angle, MISSILE_SPEED + self.speed())
-//
-//            // setting missle position
-//            missle_position = list(self.pos);
-//            ship_size = ship_info.get_radius() + 1.0;
-//            ship_size_vect = angle_to_vector(self.angle, ship_size);
-//            missle_position[0] += ship_size_vect[0];
-//            missle_position[1] += ship_size_vect[1];
-//
-//            item = (time, Sprite(missle_position, missle_vector, self.angle, 0, missile_image, missile_info, missile_sound));
-//            missiles.append(item);
-//
-//            self.last_shooting = time;
-//        }
+        if (self.shooting == true && (time - self.last_shooting > TIME_BETWEEN_SHOOTING)) {
+            var missile_vector = angle_to_vector(self.angle, MISSILE_SPEED + self.get_speed());
 
-//        self.check_collision();
+            // setting missile position
+            var missile_position = { x: self.pos.x, y: self.pos.y };
+            var ship_size = ship_img.radius + 1.0;
+            var ship_size_vector = angle_to_vector(self.angle, ship_size);
+            missile_position.x += ship_size_vector.x;
+            missile_position.y += ship_size_vector.y;
+
+            var item = new Sprite(missile_img, missile_position, {
+                angle: self.angle,
+                sound: missile_sound,
+                vel: missile_vector
+            });
+            missiles.append(item);
+
+            self.last_shooting = time;
+        }
+
+        self.check_collision();
     }
 }
