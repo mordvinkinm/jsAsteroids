@@ -18,27 +18,24 @@ function Ship(game, pos, vel, angle, image, info) {
     self.shipThrustSound = document.getElementById('ship_thrust_sound');
 
     self.draw = function (canvas) {
+        var crop;
         if (self.thrust == true) {
             self.shipThrustSound.play();
-            canvas.drawImage({
-                image: ship_img.image,
-                draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90) }),
-                crop: new Rectangle(90, 0, 90, 90),
-                angle: self.angle
-            });
+            crop = (self.invulnerability > 0 && self.invulnerability % 4 < 2)
+                ? new Rectangle(270, 0, 90, 90)
+                : new Rectangle(90, 0, 90, 90)
         } else {
             self.shipThrustSound.pause();
-            canvas.drawImage({
-                image: ship_img.image,
-                draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90) }),
-                crop: new Rectangle(0, 0, 90, 90),
-                angle: self.angle
-            });
+            crop = (self.invulnerability > 0 && self.invulnerability % 4 < 2)
+                ? new Rectangle(180, 0, 90, 90)
+                : new Rectangle(0, 0, 90, 90)
         }
-
-        //        if (self.invulnerability > 0 && self.invulnerability % 5 == 0) {
-        //            canvas.draw_circle(self.pos, ship_img.radius + 10.0, 1, "White");
-        //        }
+        canvas.drawImage({
+            image: ship_img.image,
+            draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90) }),
+            crop: crop,
+            angle: self.angle
+        });
     };
 
     self.destroy = function () {
@@ -64,7 +61,6 @@ function Ship(game, pos, vel, angle, image, info) {
             if (dst <= self.radius + rocks[i].radius) {
                 if (self.invulnerability <= 0) {
                     self.destroy();
-                    //rocks.remove(rocks[i]);
                     rocks[i] = rocks[rocks.length - 1];
                     rocks.pop();
                     i--;
@@ -128,8 +124,7 @@ function Ship(game, pos, vel, angle, image, info) {
 
             // setting missile position
             var missile_position = { x: self.pos.x, y: self.pos.y };
-            var ship_size = ship_img.size.width / 2;
-            var ship_size_vector = Helpers.angle_to_vector(self.angle, ship_size);
+            var ship_size_vector = Helpers.angle_to_vector(self.angle, self.radius);
             missile_position.x += ship_size_vector.x;
             missile_position.y += ship_size_vector.y;
 
