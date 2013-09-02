@@ -28,11 +28,26 @@ var ship_img = new ImageInfo('res/sprites/double_ship.png');
 
 var missile_img = new ImageInfo('res/sprites/shot2.png');
 
-// asteroid images - asteroid_blue.png, asteroid_brown.png, asteroid_blend.png
-var asteroid_img = new ImageInfo('res/sprites/asteroid_blue.png');
+var asteroid_imgs = [
+    new ImageInfo('res/sprites/asteroid_blue.png'),
+    new ImageInfo('res/sprites/asteroid_blend.png'),
+    new ImageInfo('res/sprites/asteroid_brown.png')
+];
+function get_asteroid_img() {
+    return asteroid_imgs[Random.randRange(0, asteroid_imgs.length)];
+}
 
 // animated explosion - explosion_orange.png, explosion_blue.png, explosion_blue2.png, explosion_alpha.png
-var explosion_img = new ImageInfo('res/sprites/explosion_alpha.png');
+var explosion_imgs = [
+    new ImageInfo('res/sprites/explosion_alpha.png'),
+    new ImageInfo('res/sprites/explosion_blue.png'),
+    new ImageInfo('res/sprites/explosion_blue2.png'),
+    new ImageInfo('res/sprites/explosion_orange.png')
+];
+
+function get_explosion_img() {
+    return explosion_imgs[Random.randRange(0, explosion_imgs.length)];
+}
 
 var soundtrack;
 var missile_sound;
@@ -55,7 +70,7 @@ function spawn_rock(rock_pos) {
         vel: { x: mul1, y: mul2},
         cyclic: true
     };
-    rocks.push(new Sprite(asteroid_img, rock_pos, params));
+    rocks.push(new Sprite(get_asteroid_img(), rock_pos, params));
 }
 
 function on_key_down(evt) {
@@ -156,7 +171,7 @@ function redraw() {
 
             for (var j = 0; j < rocks.length; j++) {
                 if (Helpers.dist(missiles[i].pos, rocks[j].pos) <= missiles[i].radius + rocks[j].radius) {
-                    explosions.push(new Sprite(explosion_img, rocks[j].pos, {
+                    explosions.push(new Sprite(get_explosion_img(), rocks[j].pos, {
                         sound: explosion_sound,
                         animated: true,
                         lifetime: 100
@@ -169,7 +184,7 @@ function redraw() {
                     missiles.pop();
 
                     // determine if big rock exploded
-                    if (rocks[j].radius == asteroid_img.radius) {
+                    if (rocks[j].radius == rocks[j].radius) {
                         var pos1 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
                         var pos2 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
                         var pos3 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};

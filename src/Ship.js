@@ -44,7 +44,7 @@ function Ship(game, pos, vel, angle, image, info) {
     self.destroy = function () {
         game.lives -= 1;
 
-        explosions.push(new Sprite(explosion_img, self.pos, {
+        explosions.push(new Sprite(get_explosion_img(), self.pos, {
             sound: explosion_sound,
             animated: true
         }));
