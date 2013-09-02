@@ -118,7 +118,7 @@ function resize_handler(evt) {
     resize(evt.target.innerWidth, evt.target.innerHeight);
 }
 
-function on_click(position) {
+function on_click() {
     if (game_over == true) {
         game_over = false;
         score = 0;

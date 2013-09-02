@@ -38,7 +38,7 @@ function Sprite(img, pos, params) {
         }
     };
 
-    self.update = function () {
+    self.update = function() {
         if (self.age > self.lifespan) {
             self.destroy();
         }
@@ -61,5 +61,5 @@ function Sprite(img, pos, params) {
                 self.pos.y = HEIGHT;
             }
         }
-    }
+    };
 }
