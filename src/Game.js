@@ -41,15 +41,7 @@ var explosion_sound;
 var canvas;
 
 // helper functions to handle transformations
-function angle_to_vector(ang, r) {
-    r = r ? r : 1;
-    return {x: r * Math.cos(ang), y: r * Math.sin(ang)};
-}
 
-function dist(p, q) {
-    if (!q) q = {x: 0, y: 0};
-    return Math.sqrt(Math.pow(p.x - q.x, 2) + Math.pow(p.y - q.y, 2));
-}
 
 // storage for sprites
 var missiles = [];

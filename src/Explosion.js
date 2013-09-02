@@ -34,7 +34,7 @@ function Explosion(extendSprite, pos) {
                 missle[1].draw(canvas);
 
                 for (rock in rocks) {
-                    if (dist(missle[1].pos, rock.pos) <= missle[1].radius + rock.radius) {
+                    if (Helpers.dist(missle[1].pos, rock.pos) <= missle[1].radius + rock.radius) {
                         explosions.push(new Explosion(rock.pos));
                         rocks.remove(rock);
                         missiles.remove(missle);

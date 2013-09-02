@@ -55,7 +55,7 @@ function Ship(game, pos, vel, angle, image, info) {
 
     self.check_collision = function () {
         for (var rock in rocks) {
-            var dst = dist(self.pos, rock.pos);
+            var dst = Helpers.dist(self.pos, rock.pos);
             if (dst <= self.radius + rock.radius) {
                 if (self.invulnerability <= 0) {
                     self.destroy();
@@ -84,14 +84,14 @@ function Ship(game, pos, vel, angle, image, info) {
 
         var acceleration = {x: 0, y: 0};
         if (self.thrust == true) {
-            acceleration = angle_to_vector(self.angle);
+            acceleration = Helpers.angle_to_vector(self.angle);
             acceleration.x *= ACCELERATION_COEF;
             acceleration.y *= ACCELERATION_COEF;
         }
 
         var friction = {x: self.vel.x * FRICTION_COEF, y: self.vel.y * FRICTION_COEF};
 
-        if (dist(self.vel) <= MAX_VEL) {
+        if (Helpers.dist(self.vel) <= MAX_VEL) {
             self.vel.x += acceleration.x;
             self.vel.y += acceleration.y;
         }
@@ -117,12 +117,12 @@ function Ship(game, pos, vel, angle, image, info) {
         }
 
         if (self.shooting == true && (time - self.last_shooting > TIME_BETWEEN_SHOOTING)) {
-            var missile_vector = angle_to_vector(self.angle, MISSILE_SPEED + self.get_speed());
+            var missile_vector = Helpers.angle_to_vector(self.angle, MISSILE_SPEED + self.get_speed());
 
             // setting missile position
             var missile_position = { x: self.pos.x, y: self.pos.y };
             var ship_size = ship_img.radius + 1.0;
-            var ship_size_vector = angle_to_vector(self.angle, ship_size);
+            var ship_size_vector = Helpers.angle_to_vector(self.angle, ship_size);
             missile_position.x += ship_size_vector.x;
             missile_position.y += ship_size_vector.y;
 
