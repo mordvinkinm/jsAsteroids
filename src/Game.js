@@ -119,6 +119,29 @@ function redraw() {
     canvas.drawImage(nebula_img.image, 0, 0);
     canvas.drawImage(debris_img.image, 0, 0);
 
+    if (game_over == true) {
+        canvas.font = '48pt';
+        canvas.fillStyle = '#FF0000';
+        canvas.fillText("GAME OVER (Click to continue)", 150, HEIGHT / 2);
+        canvas.fillText("Score: " + score, 370, HEIGHT / 2 + 40);
+        my_ship.shipThrustSound.pause();
+        my_ship.shipThrustSound.currentTime = 0;
+
+        return;
+    }
+
+    // draw score
+    var score_str = 'Score: ' + score;
+    canvas.font = '24px';
+    canvas.fillStyle = '#FFFFFF';
+    canvas.fillText(score_str, 10, 20);
+
+    // draw lives
+    var lives_str = 'Lives: ' + lives;
+    canvas.font = '24px #FFFFFF';
+    canvas.fillStyle = '#FFFFFF';
+    canvas.fillText(lives_str, WIDTH - 100, 20);
+
     my_ship.update();
     my_ship.draw(canvas);
 
