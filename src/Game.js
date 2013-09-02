@@ -39,11 +39,16 @@ function get_asteroid_img() {
 }
 
 // animated explosion - explosion_orange.png, explosion_blue.png, explosion_blue2.png, explosion_alpha.png
+var explosion_params = {
+    animated: true,
+    size: { width: 128, height: 128 },
+    lifespan: 240
+};
 var explosion_imgs = [
-    new ImageInfo('res/sprites/explosion_alpha.png'),
-    new ImageInfo('res/sprites/explosion_blue.png'),
-    new ImageInfo('res/sprites/explosion_blue2.png'),
-    new ImageInfo('res/sprites/explosion_orange.png')
+    new ImageInfo('res/sprites/explosion_alpha.png', explosion_params),
+    new ImageInfo('res/sprites/explosion_blue.png', explosion_params),
+    new ImageInfo('res/sprites/explosion_blue2.png', explosion_params),
+    new ImageInfo('res/sprites/explosion_orange.png', explosion_params)
 ];
 
 function get_explosion_img() {
@@ -189,7 +194,8 @@ function redraw() {
                     explosions.push(new Sprite(get_explosion_img(), rocks[j].pos, {
                         sound: explosion_sound,
                         animated: true,
-                        lifetime: 100
+                        lifetime: 1000,
+                        img_size: { width: 128, height: 128 }
                     }));
                     rocks[j] = rocks[rocks.length - 1];
                     rocks.pop();
@@ -199,7 +205,7 @@ function redraw() {
                     missiles.pop();
 
                     // determine if big rock exploded
-                    if (rocks[j].radius == rocks[j].radius) {
+                    if (j >= 0 && rocks[j].radius == rocks[j].radius) {
                         var pos1 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
                         var pos2 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
                         var pos3 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};

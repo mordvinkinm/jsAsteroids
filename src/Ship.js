@@ -22,7 +22,7 @@ function Ship(game, pos, vel, angle, image, info) {
             self.shipThrustSound.play();
             canvas.drawImage({
                 image: ship_img.image,
-                draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90)}),
+                draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90) }),
                 crop: new Rectangle(90, 0, 90, 90),
                 angle: self.angle
             });
@@ -30,15 +30,15 @@ function Ship(game, pos, vel, angle, image, info) {
             self.shipThrustSound.pause();
             canvas.drawImage({
                 image: ship_img.image,
-                draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90)}),
+                draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90) }),
                 crop: new Rectangle(0, 0, 90, 90),
                 angle: self.angle
             });
         }
 
-//        if (self.invulnerability > 0 && self.invulnerability % 5 == 0) {
-//            canvas.draw_circle(self.pos, ship_img.radius + 10.0, 1, "White");
-//        }
+        //        if (self.invulnerability > 0 && self.invulnerability % 5 == 0) {
+        //            canvas.draw_circle(self.pos, ship_img.radius + 10.0, 1, "White");
+        //        }
     };
 
     self.destroy = function () {
@@ -46,7 +46,9 @@ function Ship(game, pos, vel, angle, image, info) {
 
         explosions.push(new Sprite(get_explosion_img(), self.pos, {
             sound: explosion_sound,
-            animated: true
+            animated: true,
+            lifespan: 1000,
+            img_size: { width: 128, height: 128 }
         }));
 
         if (lives <= 0) {
@@ -72,7 +74,7 @@ function Ship(game, pos, vel, angle, image, info) {
     };
 
     self.get_speed = function () {
-        return Math.sqrt(Math.pow(self.vel.x, 2.0) + Math.pow(self.vel.y, 2.0))
+        return Math.sqrt(Math.pow(self.vel.x, 2.0) + Math.pow(self.vel.y, 2.0));
     };
 
     self.update = function () {
@@ -88,14 +90,14 @@ function Ship(game, pos, vel, angle, image, info) {
             self.angle += 2 * Math.PI;
         }
 
-        var acceleration = {x: 0, y: 0};
+        var acceleration = { x: 0, y: 0 };
         if (self.thrust == true) {
             acceleration = Helpers.angle_to_vector(self.angle);
             acceleration.x *= ACCELERATION_COEF;
             acceleration.y *= ACCELERATION_COEF;
         }
 
-        var friction = {x: self.vel.x * FRICTION_COEF, y: self.vel.y * FRICTION_COEF};
+        var friction = { x: self.vel.x * FRICTION_COEF, y: self.vel.y * FRICTION_COEF };
 
         if (Helpers.dist(self.vel) <= MAX_VEL) {
             self.vel.x += acceleration.x;
@@ -117,8 +119,7 @@ function Ship(game, pos, vel, angle, image, info) {
 
         if (self.pos.y > HEIGHT) {
             self.pos.y = 0;
-        }
-        else if (self.pos.y < 0) {
+        } else if (self.pos.y < 0) {
             self.pos.y = HEIGHT;
         }
 
@@ -144,5 +145,5 @@ function Ship(game, pos, vel, angle, image, info) {
         }
 
         self.check_collision();
-    }
+    };
 }
