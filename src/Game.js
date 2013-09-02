@@ -79,7 +79,11 @@ var explosions = [];
 
 // timer handler that spawns a rock
 function spawn_rock(rock_pos, isLarge) {
-    rock_pos = rock_pos ? rock_pos : { x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT) };
+    if (!rock_pos) {
+        do {
+            rock_pos = { x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT) };
+        } while (Helpers.dist(rock_pos, my_ship.pos) < 3 * rock_pos.radius);
+    }
     var mul1 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
     var mul2 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
 
@@ -168,9 +172,9 @@ function redraw() {
     if (game_over == true) {
         canvas.font = '36px Arial';
         canvas.fillStyle = '#FF0000';
-        canvas.fillText("GAME OVER (Click to continue)", 150, HEIGHT / 2);
+        canvas.fillText("GAME OVER (Click to continue)", WIDTH / 2 - 240, HEIGHT / 2);
         canvas.font = '24px Arial';
-        canvas.fillText("Score: " + score, 370, HEIGHT / 2 + 40);
+        canvas.fillText("Score: " + score, WIDTH / 2 - 60, HEIGHT / 2 + 40);
         my_ship.shipThrustSound.pause();
         my_ship.shipThrustSound.currentTime = 0;
 
