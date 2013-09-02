@@ -10,18 +10,8 @@ function Explosion(extendSprite, pos) {
         // animiate background
         time += 1;
         wtime = (time / 8) % center[0];
-        canvas.draw_image(nebula_image, nebula_img.get_center(), nebula_img.get_size(), [WIDTH / 2, HEIGHT / 2], [WIDTH, HEIGHT]);
         canvas.draw_image(debris_image, [center[0] - wtime, center[1]], [size[0] - 2 * wtime, size[1]], [WIDTH / 2 + 1.25 * wtime, HEIGHT / 2], [WIDTH - 2.5 * wtime, HEIGHT]);
         canvas.draw_image(debris_image, [size[0] - wtime, center[1]], [2 * wtime, size[1]], [1.25 * wtime, HEIGHT / 2], [2.5 * wtime, HEIGHT]);
-
-        if (game_over == true) {
-            canvas.draw_text("GAME OVER (Click to continue)", (150, HEIGHT / 2), 40, "Red");
-            canvas.draw_text("Score: " + str(score), (370, HEIGHT / 2 + 40), 30, "Red");
-            return;
-        }
-
-        // draw ship and sprites
-        my_ship.draw(canvas);
 
         for (rock in rocks) {
             rock.draw(canvas);
@@ -57,17 +47,5 @@ function Explosion(extendSprite, pos) {
                 }
             }
         }
-
-        for (explosion in explosions) {
-            explosion.draw(canvas);
-        }
-
-        // draw score
-        score_str = 'Score: ' + str(score);
-        canvas.draw_text(score_str, (10, 20), 24, "White");
-
-        // draw lives
-        lives_str = 'Lives: ' + str(lives)
-        canvas.draw_text(lives_str, (WIDTH - 100, 20), 24, "White")
     }
 }
