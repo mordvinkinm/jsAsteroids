@@ -1,7 +1,8 @@
 // constants for user interface
 var FPS = 60;
-var WIDTH = 800;
-var HEIGHT = 600;
+var FULL_SCREEN = -1;
+var WIDTH = 1280;
+var HEIGHT = 760;
 
 // game constants
 var MAX_VEL = 7;
@@ -22,8 +23,8 @@ var game_over = false;
 
 var my_ship;
 
+var nebula_img = new ImageInfo('res/sprites/the_great_nebula.jpg');
 var debris_img = new ImageInfo('res/sprites/debris2_blue.png');
-var nebula_img = new ImageInfo('res/sprites/nebula_blue.png');
 var ship_img = new ImageInfo('res/sprites/double_ship.png');
 
 var missile_img = new ImageInfo('res/sprites/shot2.png');
@@ -53,6 +54,7 @@ var soundtrack;
 var missile_sound;
 var explosion_sound;
 
+var canvasDom;
 var canvas;
 
 // storage for sprites
@@ -101,6 +103,19 @@ function on_key_up(evt) {
         // space key
         my_ship.shooting = false;
     }
+}
+
+function resize(width, height) {
+    WIDTH = width;
+    HEIGHT = height;
+    canvasDom.width = width;
+    canvasDom.height = height;
+    canvasDom.style.width = width + 'px';
+    canvasDom.style.height = height + 'px';
+}
+
+function resize_handler(evt) {
+    resize(evt.target.innerWidth, evt.target.innerHeight);
 }
 
 function on_click(position) {
@@ -219,6 +234,9 @@ function redraw() {
 
 function init() {
     LibCanvas.extract();
+    canvasDom = document.getElementById('mainCanvas');
+
+    resize(window.innerWidth, window.innerHeight);
     canvas = document.getElementById('mainCanvas').getContext("2d-libcanvas");
 
     soundtrack = document.getElementById('soundtrack');
