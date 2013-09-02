@@ -25,7 +25,9 @@ var my_ship;
 
 var nebula_img = new ImageInfo('res/sprites/the_great_nebula.jpg');
 var debris_img = new ImageInfo('res/sprites/debris2_blue.png');
-var ship_img = new ImageInfo('res/sprites/double_ship.png');
+var ship_img = new ImageInfo('res/sprites/double_ship.png', {
+    size: { width: 90, height: 90 }
+});
 
 var missile_img = new ImageInfo('res/sprites/shot2.png');
 

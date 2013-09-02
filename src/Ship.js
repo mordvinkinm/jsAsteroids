@@ -128,7 +128,7 @@ function Ship(game, pos, vel, angle, image, info) {
 
             // setting missile position
             var missile_position = { x: self.pos.x, y: self.pos.y };
-            var ship_size = ship_img.radius + 1.0;
+            var ship_size = ship_img.size.width / 2;
             var ship_size_vector = Helpers.angle_to_vector(self.angle, ship_size);
             missile_position.x += ship_size_vector.x;
             missile_position.y += ship_size_vector.y;
