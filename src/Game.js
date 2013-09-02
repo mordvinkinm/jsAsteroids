@@ -94,7 +94,7 @@ function on_click(position) {
         score = 0;
         lives = INITIAL_LIVES;
 
-        respawn()
+        respawn();
     }
 }
 
