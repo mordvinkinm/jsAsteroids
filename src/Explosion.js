@@ -35,7 +35,7 @@ function Explosion(extendSprite, pos) {
 
                 for (rock in rocks) {
                     if (dist(missle[1].pos, rock.pos) <= missle[1].radius + rock.radius) {
-                        explosions.append(new Explosion(rock.pos));
+                        explosions.push(new Explosion(rock.pos));
                         rocks.remove(rock);
                         missiles.remove(missle);
 

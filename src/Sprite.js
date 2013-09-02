@@ -11,7 +11,7 @@ function Sprite(img, pos, params) {
 
     /*self.actual_size = (!actual_size || actual_size == [-1, -1]) ? img.size : actual_size;
 
-    self.radius = (!actual_radius || actual_radius == -1) ? img.radius : actual_radius;*/
+     self.radius = (!actual_radius || actual_radius == -1) ? img.radius : actual_radius;*/
 
     self.lifespan = img.lifespan;
     self.animated = img.animated;
@@ -21,12 +21,12 @@ function Sprite(img, pos, params) {
         params.sound.play();
     }
 
-    function draw(canvas) {
+    self.draw = function (canvas) {
         if (self.animated == true) {
             var sprite_center = {x: self.image_center.x + self.age * self.image_size.x, y: self.image_center.y};
             canvas.drawImage({
                 image: self.image,
-                draw: new Rectangle({center: self.pos, size: self.actual_size}),
+                draw: new Rectangle({center: self.pos, size: self.image_size}),
                 crop: new Rectangle({center: sprite_center, size: self.image_size}),
                 angle: self.angle
             });
@@ -34,13 +34,13 @@ function Sprite(img, pos, params) {
             canvas.drawImage({
                 image: self.image,
                 crop: new Rectangle({center: self.image_center, size: self.image_size}),
-                draw: new Rectangle({center: self.pos, size: self.actual_size}),
+                draw: new Rectangle({center: self.pos, size: self.image_size}),
                 angle: self.angle
             });
         }
-    }
+    };
 
-    function update() {
+    self.update = function () {
         if (self.age > self.lifespan) {
             self.destroy();
         }

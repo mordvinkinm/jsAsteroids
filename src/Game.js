@@ -63,7 +63,8 @@ function spawn_rock(rock_pos, large) {
     var mul2 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
 
     var params = {
-        vel: { x: mul1, y: mul2}
+        vel: { x: mul1, y: mul2},
+        cyclic: true
     };
     rocks.push(new Sprite(asteroid_img, rock_pos, params));
 }
@@ -134,17 +135,17 @@ function redraw() {
 
     for (var i = 0; i < missiles.length; i++) {
         missiles[i].update();
-        missiles[i].draw();
+        missiles[i].draw(canvas);
     }
 
     for (i = 0; i < rocks.length; i++) {
         rocks[i].update();
-        rocks[i].draw();
+        rocks[i].draw(canvas);
     }
 
     for (i = 0; i < explosions.length; i++) {
         explosions[i].update();
-        explosions[i].draw();
+        explosions[i].draw(canvas);
     }
 }
 
@@ -153,7 +154,7 @@ function init() {
     canvas = document.getElementById('mainCanvas').getContext("2d-libcanvas");
 
     soundtrack = document.getElementById('soundtrack');
-    missile_sound = document.getElementById('missileSound');
+    missile_sound = document.getElementById('missile_sound');
     //missile_sound.volume = 0.5;
     explosion_sound = document.getElementById('explosion_sound');
 

@@ -8,10 +8,10 @@ function ImageInfo(url, params) {
         self.size = params && params.size ? params.size : { width: self.image.width, height: self.image.height};
         self.radius = Math.sqrt(Math.pow(self.size.width, 2.0) + Math.pow(self.size.height, 2.0));
 
-        //self.lifespan = lifespan ? lifespan : 100000000;
+        self.lifespan = params && params.lifespan ? params.lifespan : 100000000;
         self.animated = params && params.animated && params.animated == true;
     };
 
+    self.image.onload = self.Init;
     self.image.src = url;
-    self.image.onload = self.Init();
 }

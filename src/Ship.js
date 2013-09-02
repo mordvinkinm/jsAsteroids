@@ -44,7 +44,7 @@ function Ship(game, pos, vel, angle, image, info) {
     self.destroy = function () {
         game.lives -= 1;
 
-        //explosions.append(new Explosion(self.pos));
+        //explosions.push(new Explosion(self.pos));
 
         /*if (lives <= 0) {
          game.game_over = true;
@@ -129,9 +129,10 @@ function Ship(game, pos, vel, angle, image, info) {
             var item = new Sprite(missile_img, missile_position, {
                 angle: self.angle,
                 sound: missile_sound,
-                vel: missile_vector
+                vel: missile_vector,
+                lifespan: 30
             });
-            missiles.append(item);
+            missiles.push(item);
 
             self.last_shooting = time;
         }
