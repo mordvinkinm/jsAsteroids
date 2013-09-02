@@ -46,7 +46,7 @@ var rocks = [];
 var explosions = [];
 
 // timer handler that spawns a rock
-function spawn_rock(rock_pos, large) {
+function spawn_rock(rock_pos) {
     rock_pos = rock_pos ? rock_pos : { x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT) };
     var mul1 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
     var mul2 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
@@ -148,6 +148,46 @@ function redraw() {
 
     for (var i = 0; i < missiles.length; i++) {
         missiles[i].update();
+
+        if (missiles[i] + MISSILE_LIFETIME < time) {
+            missiles.remove(missiles[i]);
+        } else {
+            missiles[i].draw(canvas);
+
+            for (var j = 0; j < rocks.length; j++) {
+                if (Helpers.dist(missiles[i].pos, rocks[j].pos) <= missiles[i].radius + rocks[j].radius) {
+                    explosions.push(new Sprite(explosion_img, rocks[j].pos, {
+                        sound: explosion_sound,
+                        animated: true,
+                        lifetime: 100
+                    }));
+                    rocks[j] = rocks[rocks.length - 1];
+                    rocks.pop();
+                    j--;
+                    missiles[i] = missiles[missiles.length - 1];
+                    i--;
+                    missiles.pop();
+
+                    // determine if big rock exploded
+                    if (rocks[j].radius == asteroid_img.radius) {
+                        var pos1 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
+                        var pos2 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
+                        var pos3 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
+
+                        spawn_rock(pos1);
+                        spawn_rock(pos2);
+                        spawn_rock(pos3);
+                    }
+
+                    score += 1;
+
+                    break;
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < missiles.length; i++){
         missiles[i].draw(canvas);
     }
 
