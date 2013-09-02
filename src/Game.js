@@ -36,6 +36,14 @@ var asteroid_imgs = [
     new ImageInfo('res/sprites/asteroid_blend.png'),
     new ImageInfo('res/sprites/asteroid_brown.png')
 ];
+var asteroidParamsSmall = {
+    size: { width: 45, height: 45}
+};
+var asteroid_imgs_small = [
+    new ImageInfo('res/sprites/asteroid_blue.png', asteroidParamsSmall),
+    new ImageInfo('res/sprites/asteroid_blend.png', asteroidParamsSmall),
+    new ImageInfo('res/sprites/asteroid_brown.png', asteroidParamsSmall)
+];
 function get_asteroid_img() {
     return asteroid_imgs[Random.randRange(0, asteroid_imgs.length)];
 }
@@ -70,14 +78,15 @@ var rocks = [];
 var explosions = [];
 
 // timer handler that spawns a rock
-function spawn_rock(rock_pos) {
+function spawn_rock(rock_pos, isLarge) {
     rock_pos = rock_pos ? rock_pos : { x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT) };
     var mul1 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
     var mul2 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
 
     var params = {
         vel: { x: mul1, y: mul2},
-        cyclic: true
+        cyclic: true,
+        actual_size: isLarge && isLarge == true ? {width: 90, height: 90} : {width: 45, height: 45}
     };
     rocks.push(new Sprite(get_asteroid_img(), rock_pos, params));
 }
@@ -199,23 +208,24 @@ function redraw() {
                         lifetime: 1000,
                         img_size: { width: 128, height: 128 }
                     }));
+
+                    // determine if big rock exploded
+                    if (rocks[j].actual_size.width == 90) {
+                        var pos1 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos.y + Random.randRange(-10, 10)};
+                        var pos2 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos.y + Random.randRange(-10, 10)};
+                        var pos3 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos.y + Random.randRange(-10, 10)};
+
+                        spawn_rock(pos1, false);
+                        spawn_rock(pos2, false);
+                        spawn_rock(pos3, false);
+                    }
+
                     rocks[j] = rocks[rocks.length - 1];
                     rocks.pop();
                     j--;
                     missiles[i] = missiles[missiles.length - 1];
                     i--;
                     missiles.pop();
-
-                    // determine if big rock exploded
-                    if (j >= 0 && rocks[j].radius == rocks[j].radius) {
-                        var pos1 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
-                        var pos2 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
-                        var pos3 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos[1] + Random.randRange(-10, 10)};
-
-                        spawn_rock(pos1);
-                        spawn_rock(pos2);
-                        spawn_rock(pos3);
-                    }
 
                     score += 1;
 
@@ -225,7 +235,7 @@ function redraw() {
         }
     }
 
-    for (i = 0; i < missiles.length; i++){
+    for (i = 0; i < missiles.length; i++) {
         missiles[i].draw(canvas);
     }
 
@@ -256,7 +266,7 @@ function init() {
     respawn();
 
     setInterval(function () {
-        spawn_rock({ x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT)});
+        spawn_rock({ x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT)}, true);
     }, 2000);
 
     //soundtrack.play();

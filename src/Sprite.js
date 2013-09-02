@@ -5,11 +5,12 @@ function Sprite(img, pos, params) {
     self.image_size = params && params.img_size ? params.img_size : img.size;
     self.image_center = { x: self.image_size.width / 2, y: self.image_size.height / 2 };
 
+    self.actual_size = params && params.actual_size ? params.actual_size : self.image_size;
+
     self.pos = { x: pos.x, y: pos.y };
     self.vel = params && params.vel ? { x: params.vel.x, y: params.vel.y } : { x: 0, y: 0 };
     self.angle = params && params.angle ? params.angle : 0;
     self.angle_vel = params && params.angle_vel ? params.angle_vel : 0;
-    self.actual_size = img.size;
     self.radius = img.radius;
 
     self.lifespan = img.lifespan ? self.image.lifespan : 0;
@@ -26,14 +27,14 @@ function Sprite(img, pos, params) {
             canvas.drawImage({
                 image: self.image,
                 crop: new Rectangle({ center: sprite_center, size: self.image_size }),
-                draw: new Rectangle({ center: self.pos, size: self.image_size }),
+                draw: new Rectangle({ center: self.pos, size: self.actual_size }),
                 angle: self.angle
             });
         } else {
             canvas.drawImage({
                 image: self.image,
                 crop: new Rectangle({ center: self.image_center, size: self.image_size }),
-                draw: new Rectangle({ center: self.pos, size: self.image_size }),
+                draw: new Rectangle({ center: self.pos, size: self.actual_size }),
                 angle: self.angle
             });
         }
