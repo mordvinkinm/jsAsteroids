@@ -40,9 +40,6 @@ var explosion_sound;
 
 var canvas;
 
-// helper functions to handle transformations
-
-
 // storage for sprites
 var missiles = [];
 var rocks = [];
