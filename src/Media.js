@@ -38,16 +38,8 @@
         return explosionImgs[Random.randRange(0, explosionImgs.length)];
     };
     
-
-    
-    /*<audio src="res/sounds/soundtrack.mp3" id="soundtrack"></audio>
-    <audio src="res/sounds/missile.mp3" id="missile_sound"></audio>
-    <audio src="res/sounds/thrust.mp3" id="ship_thrust_sound"></audio>
-    <audio src="res/sounds/explosion.mp3" id="explosion_sound"></
-    audio >       */ 
-    self.soundtrack = new Audio('res/sounds/soundtrack.mp3');//document.getElementById('soundtrack');
-    self.missileSound = new Audio('res/sounds/missile.mp3');//document.getElementById('missile_sound');
-    self.explosionSound = new Audio('res/sounds/explosion.mp3');//document.getElementById('explosion_sound');
+    self.soundtrack = new Audio('res/sounds/soundtrack.mp3');
+    self.missileSound = new Audio('res/sounds/missile.mp3');
+    self.explosionSound = new Audio('res/sounds/explosion.mp3');
     self.shipThrustSound = new Audio('res/sounds/thrust.mp3');
-
 }
