@@ -22,61 +22,15 @@ var game_over = false;
 
 var my_ship;
 
-var nebula_img = new ImageInfo('res/sprites/the_great_nebula.jpg');
-var debris_img = new ImageInfo('res/sprites/debris2_blue.png');
-var ship_img = new ImageInfo('res/sprites/double_ship.png', {
-    size: { width: 90, height: 90 }
-});
-
-var missile_img = new ImageInfo('res/sprites/shot2.png');
-
-var asteroid_imgs = [
-    new ImageInfo('res/sprites/asteroid_blue.png'),
-    new ImageInfo('res/sprites/asteroid_blend.png'),
-    new ImageInfo('res/sprites/asteroid_brown.png')
-];
-var asteroidParamsSmall = {
-    size: { width: 45, height: 45}
-};
-var asteroid_imgs_small = [
-    new ImageInfo('res/sprites/asteroid_blue.png', asteroidParamsSmall),
-    new ImageInfo('res/sprites/asteroid_blend.png', asteroidParamsSmall),
-    new ImageInfo('res/sprites/asteroid_brown.png', asteroidParamsSmall)
-];
-function get_asteroid_img() {
-    return asteroid_imgs[Random.randRange(0, asteroid_imgs.length)];
-}
-
-// animated explosion - explosion_orange.png, explosion_blue.png, explosion_blue2.png, explosion_alpha.png
-var explosion_params = {
-    animated: true,
-    size: { width: 128, height: 128 },
-    lifespan: 240
-};
-var explosion_imgs = [
-    new ImageInfo('res/sprites/explosion_alpha.png', explosion_params),
-    new ImageInfo('res/sprites/explosion_blue.png', explosion_params),
-    new ImageInfo('res/sprites/explosion_blue2.png', explosion_params),
-    new ImageInfo('res/sprites/explosion_orange.png', explosion_params)
-];
-
-function get_explosion_img() {
-    return explosion_imgs[Random.randRange(0, explosion_imgs.length)];
-}
-
-var soundtrack;
-var missile_sound;
-var explosion_sound;
-
 var canvasDom;
 var canvas;
 
-// storage for sprites
 var missiles = [];
 var rocks = [];
 var explosions = [];
 
-// timer handler that spawns a rock
+var Media;
+
 function spawn_rock(rock_pos, isLarge) {
     if (!rock_pos) {
         do {
@@ -91,7 +45,7 @@ function spawn_rock(rock_pos, isLarge) {
         cyclic: true,
         actual_size: isLarge && isLarge == true ? {width: 90, height: 90} : {width: 45, height: 45}
     };
-    rocks.push(new Sprite(get_asteroid_img(), rock_pos, params));
+    rocks.push(new Sprite(Media.getAsteroidImg(), rock_pos, params));
 }
 
 function on_key_down(evt) {
@@ -154,7 +108,7 @@ function respawn() {
     }, {
         x: 0,
         y: 0
-    }, 0, ship_img.image, ship_img);
+    }, 0, Media.shipImg.image, Media.shipImg);
 
     my_ship.angle = Random.random() * Math.PI;
     rocks = [];
@@ -165,8 +119,8 @@ function respawn() {
 function redraw() {
     time += 1;
 
-    canvas.drawImage(nebula_img.image, 0, 0);
-    canvas.drawImage(debris_img.image, 0, 0);
+    canvas.drawImage(Media.nebulaImg.image, 0, 0);
+    canvas.drawImage(Media.debrisImg.image, 0, 0);
 
     if (game_over == true) {
         canvas.font = '36px Arial';
@@ -205,8 +159,8 @@ function redraw() {
 
             for (var j = 0; j < rocks.length; j++) {
                 if (Helpers.dist(missiles[i].pos, rocks[j].pos) <= missiles[i].radius + rocks[j].radius) {
-                    explosions.push(new Sprite(get_explosion_img(), rocks[j].pos, {
-                        sound: explosion_sound,
+                    explosions.push(new Sprite(Media.getExplosionImg(), rocks[j].pos, {
+                        sound: Media.explosionSound,
                         animated: true,
                         lifetime: 1000,
                         img_size: { width: 128, height: 128 }
@@ -259,11 +213,8 @@ function init() {
 
     resize(window.innerWidth, window.innerHeight);
     canvas = document.getElementById('mainCanvas').getContext("2d-libcanvas");
-
-    soundtrack = document.getElementById('soundtrack');
-    missile_sound = document.getElementById('missile_sound');
-    //missile_sound.volume = 0.5;
-    explosion_sound = document.getElementById('explosion_sound');
+    
+    Media = new InitMedia();
 
     setInterval(redraw, 1000 / FPS);
     respawn();
@@ -272,5 +223,5 @@ function init() {
         spawn_rock({ x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT)}, true);
     }, 2000);
 
-    //soundtrack.play();
+    Media.soundtrack.play();
 }

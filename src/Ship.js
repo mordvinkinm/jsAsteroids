@@ -31,7 +31,7 @@ function Ship(game, pos, vel, angle, image, info) {
                 : new Rectangle(0, 0, 90, 90);
         }
         canvas.drawImage({
-            image: ship_img.image,
+            image: Media.shipImg.image,
             draw: new Rectangle({ center: new Point(self.pos.x, self.pos.y), size: new Size(90, 90) }),
             crop: crop,
             angle: self.angle
@@ -41,8 +41,8 @@ function Ship(game, pos, vel, angle, image, info) {
     self.destroy = function () {
         game.lives -= 1;
 
-        explosions.push(new Sprite(get_explosion_img(), self.pos, {
-            sound: explosion_sound,
+        explosions.push(new Sprite(Media.getExplosionImg(), self.pos, {
+            sound: Media.explosionSound,
             animated: true,
             lifespan: 1000,
             img_size: { width: 128, height: 128 }
@@ -128,9 +128,9 @@ function Ship(game, pos, vel, angle, image, info) {
             missile_position.x += ship_size_vector.x;
             missile_position.y += ship_size_vector.y;
 
-            var item = new Sprite(missile_img, missile_position, {
+            var item = new Sprite(Media.missileImg, missile_position, {
                 angle: self.angle,
-                sound: missile_sound,
+                sound: Media.missileSound,
                 vel: missile_vector,
                 lifespan: 30
             });
