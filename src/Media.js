@@ -2,7 +2,7 @@
     var self = this;
 
     var asteroidImgs, explosionParams, explosionImgs;
-    (function Init() {
+    (function () {
         asteroidImgs = [
         new ImageInfo('res/sprites/asteroid_blue.png'),
         new ImageInfo('res/sprites/asteroid_blend.png'),

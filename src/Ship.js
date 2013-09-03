@@ -38,7 +38,7 @@ function Ship(pos, vel, angle, imageInfo) {
     };
 
     self.destroy = function () {
-        game.lives -= 1;
+        lives -= 1;
 
         explosions.push(new Sprite(Media.getExplosionImg(), self.pos, {
             sound: Media.explosionSound,
