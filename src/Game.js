@@ -1,4 +1,5 @@
 // constants for user interface
+DEBUG = false;
 var FPS = 60;
 var WIDTH = 1280;
 var HEIGHT = 760;
@@ -35,7 +36,7 @@ function spawn_rock(rock_pos, isLarge) {
     if (!rock_pos) {
         do {
             rock_pos = { x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT) };
-        } while (Helpers.dist(rock_pos, my_ship.pos) < 3 * rock_pos.radius);
+        } while (isLarge && isLarge == true && Helpers.dist(rock_pos, my_ship.pos) < 3 * (my_ship.radius + 45));
     }
     var mul1 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
     var mul2 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
@@ -197,6 +198,15 @@ function redraw() {
 
     for (i = 0; i < rocks.length; i++) {
         rocks[i].update();
+        if (DEBUG && DEBUG == true) {
+            canvas.beginPath();
+            canvas.arc(rocks[i].pos.x, rocks[i].pos.y, rocks[i].radius, 0, 2 * Math.PI, false);
+            canvas.fillStyle = 'red';
+            canvas.fill();
+            canvas.lineWidth = 3;
+            canvas.strokeStyle = '#330000';
+            canvas.stroke();
+        }
         rocks[i].draw(canvas);
     }
 

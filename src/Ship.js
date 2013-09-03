@@ -17,6 +17,15 @@ function Ship(pos, vel, angle, imageInfo) {
     self.shipThrustSound = Media.shipThrustSound;
 
     self.draw = function (canvas) {
+        if (DEBUG && DEBUG == true) {
+            canvas.beginPath();
+            canvas.arc(self.pos.x, self.pos.y, self.radius, 0, 2 * Math.PI, false);
+            canvas.fillStyle = 'green';
+            canvas.fill();
+            canvas.lineWidth = 3;
+            canvas.strokeStyle = '#003300';
+            canvas.stroke();
+        }
         var crop;
         if (self.thrust == true) {
             self.shipThrustSound.play();

@@ -11,7 +11,7 @@ function Sprite(img, pos, params) {
     self.vel = params && params.vel ? { x: params.vel.x, y: params.vel.y } : { x: 0, y: 0 };
     self.angle = params && params.angle ? params.angle : 0;
     self.angle_vel = params && params.angle_vel ? params.angle_vel : 0;
-    self.radius = img.radius;
+    self.radius = Math.max(self.actual_size.width, self.actual_size.height) / 2.0;
 
     self.lifespan = img.lifespan ? self.image.lifespan : 0;
     self.animated = img.animated && img.animated == true;
