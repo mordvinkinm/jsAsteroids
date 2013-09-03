@@ -23,12 +23,12 @@ function Ship(game, pos, vel, angle, image, info) {
             self.shipThrustSound.play();
             crop = (self.invulnerability > 0 && self.invulnerability % 4 < 2)
                 ? new Rectangle(270, 0, 90, 90)
-                : new Rectangle(90, 0, 90, 90)
+                : new Rectangle(90, 0, 90, 90);
         } else {
             self.shipThrustSound.pause();
             crop = (self.invulnerability > 0 && self.invulnerability % 4 < 2)
                 ? new Rectangle(180, 0, 90, 90)
-                : new Rectangle(0, 0, 90, 90)
+                : new Rectangle(0, 0, 90, 90);
         }
         canvas.drawImage({
             image: ship_img.image,

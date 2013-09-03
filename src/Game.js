@@ -1,6 +1,5 @@
 // constants for user interface
 var FPS = 60;
-var FULL_SCREEN = -1;
 var WIDTH = 1280;
 var HEIGHT = 760;
 
