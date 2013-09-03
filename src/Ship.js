@@ -14,7 +14,7 @@ function Ship(pos, vel, angle, imageInfo) {
     self.last_shooting = 0;
     self.invulnerability = RESPAWN_INVULNERABILITY;
 
-    self.shipThrustSound = document.getElementById('ship_thrust_sound');
+    self.shipThrustSound = Media.shipThrustSound;
 
     self.draw = function (canvas) {
         var crop;

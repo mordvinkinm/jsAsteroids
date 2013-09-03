@@ -29,7 +29,7 @@ var missiles = [];
 var rocks = [];
 var explosions = [];
 
-var Media;
+var Media = new InitMedia();
 
 function spawn_rock(rock_pos, isLarge) {
     if (!rock_pos) {
@@ -41,9 +41,9 @@ function spawn_rock(rock_pos, isLarge) {
     var mul2 = Random.random() * (Random.randRange(0, 100) % 2 == 0 ? ROCK_VEL_MULTIPLIER : -ROCK_VEL_MULTIPLIER);
 
     var params = {
-        vel: { x: mul1, y: mul2},
+        vel: { x: mul1, y: mul2 },
         cyclic: true,
-        actual_size: isLarge && isLarge == true ? {width: 90, height: 90} : {width: 45, height: 45}
+        actual_size: isLarge && isLarge == true ? { width: 90, height: 90 } : { width: 45, height: 45 }
     };
     rocks.push(new Sprite(Media.getAsteroidImg(), rock_pos, params));
 }
@@ -102,7 +102,7 @@ function respawn() {
     my_ship = new Ship({
         x: WIDTH / 2,
         y: HEIGHT / 2
-    }, { x: 0, y: 0 }, 0, Media.shipImg.image, Media.shipImg);
+    }, { x: 0, y: 0 }, 0, Media.shipImg);
 
     my_ship.angle = Random.random() * Math.PI;
     rocks = [];
@@ -163,15 +163,15 @@ function redraw() {
                     // determine if big rock exploded
                     if (rocks[j].actual_size.width == 90) {
                         spawn_rock({
-                            x: rocks[j].pos.x + Random.randRange(-10, 10), 
+                            x: rocks[j].pos.x + Random.randRange(-10, 10),
                             y: rocks[j].pos.y + Random.randRange(-10, 10)
                         }, false);
                         spawn_rock({
-                            x: rocks[j].pos.x + Random.randRange(-10, 10), 
+                            x: rocks[j].pos.x + Random.randRange(-10, 10),
                             y: rocks[j].pos.y + Random.randRange(-10, 10)
                         }, false);
                         spawn_rock({
-                            x: rocks[j].pos.x + Random.randRange(-10, 10), 
+                            x: rocks[j].pos.x + Random.randRange(-10, 10),
                             y: rocks[j].pos.y + Random.randRange(-10, 10)
                         }, false);
                     }
@@ -212,14 +212,12 @@ function init() {
 
     resize(window.innerWidth, window.innerHeight);
     canvas = document.getElementById('mainCanvas').getContext("2d-libcanvas");
-    
-    Media = new InitMedia();
 
     setInterval(redraw, 1000 / FPS);
     respawn();
 
     setInterval(function () {
-        spawn_rock({ x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT)}, true);
+        spawn_rock({ x: Random.randRange(0, WIDTH), y: Random.randRange(0, HEIGHT) }, true);
     }, 2000);
 
     Media.soundtrack.play();
