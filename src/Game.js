@@ -67,10 +67,7 @@ function on_key_up(evt) {
     var key = evt.keyIdentifier;
     if (key == "Up") {
         my_ship.thrust = false;
-    } else if (key == "Down") {
-    } else if (key == "Left") {
-        my_ship.angle_vel = 0;
-    } else if (key == "Right") {
+    } else if (key == "Left" || key == "Right") {
         my_ship.angle_vel = 0;
     } else if (key == "U+0020") {
         // space key
@@ -102,13 +99,10 @@ function on_click() {
 }
 
 function respawn() {
-    my_ship = new Ship(self, {
+    my_ship = new Ship({
         x: WIDTH / 2,
         y: HEIGHT / 2
-    }, {
-        x: 0,
-        y: 0
-    }, 0, Media.shipImg.image, Media.shipImg);
+    }, { x: 0, y: 0 }, 0, Media.shipImg.image, Media.shipImg);
 
     my_ship.angle = Random.random() * Math.PI;
     rocks = [];
@@ -168,13 +162,18 @@ function redraw() {
 
                     // determine if big rock exploded
                     if (rocks[j].actual_size.width == 90) {
-                        var pos1 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos.y + Random.randRange(-10, 10)};
-                        var pos2 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos.y + Random.randRange(-10, 10)};
-                        var pos3 = {x: rocks[j].pos.x + Random.randRange(-10, 10), y: rocks[j].pos.y + Random.randRange(-10, 10)};
-
-                        spawn_rock(pos1, false);
-                        spawn_rock(pos2, false);
-                        spawn_rock(pos3, false);
+                        spawn_rock({
+                            x: rocks[j].pos.x + Random.randRange(-10, 10), 
+                            y: rocks[j].pos.y + Random.randRange(-10, 10)
+                        }, false);
+                        spawn_rock({
+                            x: rocks[j].pos.x + Random.randRange(-10, 10), 
+                            y: rocks[j].pos.y + Random.randRange(-10, 10)
+                        }, false);
+                        spawn_rock({
+                            x: rocks[j].pos.x + Random.randRange(-10, 10), 
+                            y: rocks[j].pos.y + Random.randRange(-10, 10)
+                        }, false);
                     }
 
                     rocks[j] = rocks[rocks.length - 1];

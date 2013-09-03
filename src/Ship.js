@@ -1,17 +1,16 @@
-function Ship(game, pos, vel, angle, image, info) {
+function Ship(pos, vel, angle, imageInfo) {
     var self = this;
 
-    self.GameState = game;
     self.pos = pos;
     self.vel = vel;
     self.thrust = false;
     self.shooting = false;
     self.angle = angle;
     self.angle_vel = 0;
-    self.image = image;
-    self.image_center = info.center;
-    self.image_size = info.size;
-    self.radius = info.radius;
+    self.image = imageInfo.image;
+    self.image_center = imageInfo.center;
+    self.image_size = imageInfo.size;
+    self.radius = imageInfo.radius;
     self.last_shooting = 0;
     self.invulnerability = RESPAWN_INVULNERABILITY;
 
