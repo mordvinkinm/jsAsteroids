@@ -9,3 +9,12 @@ var Helpers = {
         return Math.sqrt(Math.pow(p.x - q.x, 2) + Math.pow(p.y - q.y, 2));
     }
 };
+
+var Random = {
+    randRange: function (from, to) {
+        var tmp = parseInt((to - from) * Math.random() + from);
+        return tmp == to ? tmp - 1 : parseInt(tmp);
+    },
+
+    random: Math.random
+};
