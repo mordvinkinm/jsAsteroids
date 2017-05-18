@@ -8,7 +8,8 @@
   "description": "jsAsteroids",
   "main": "src/app.js",
   "scripts": {
-    "build": "node_modules/.bin/webpack --config webpack.config.js"
+    "build": "node_modules/.bin/webpack --config webpack.config.js",
+    "start": "node_modules/.bin/webpack --config webpack.config.js; http-server"
   },
   "repository": {
     "type": "git",
