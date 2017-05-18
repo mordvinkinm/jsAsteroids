@@ -1,0 +1,27 @@
+{
+  "name": "jsasteroids",
+  "version": "1.0.0",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "webpack": "^2.4.1"
+  },
+  "description": "jsAsteroids",
+  "main": "src/app.js",
+  "scripts": {
+    "build": "node_modules/.bin/webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fixeg/jsAsteroids.git"
+  },
+  "keywords": [
+    "asteroids",
+    "js"
+  ],
+  "author": "Mikhail Mordvinkin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fixeg/jsAsteroids/issues"
+  },
+  "homepage": "https://github.com/Fixeg/jsAsteroids#readme"
+}
