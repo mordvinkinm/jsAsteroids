@@ -2,14 +2,19 @@
   "name": "jsasteroids",
   "version": "1.0.0",
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
-    "webpack": "^2.4.1"
+    "webpack": "^2.5.1",
+    "webpack-merge": "^4.1.0"
   },
   "description": "jsAsteroids",
   "main": "src/app.js",
   "scripts": {
-    "build": "node_modules/.bin/webpack --config webpack.config.js",
-    "start": "node_modules/.bin/webpack --config webpack.config.js; http-server"
+    "build:dev": "node_modules/.bin/webpack --config webpack.dev.js",
+    "build:prod": "node_modules/.bin/webpack --config webpack.prod.js",
+    "start:dev": "node_modules/.bin/webpack --config webpack.dev.js; http-server"
   },
   "repository": {
     "type": "git",
