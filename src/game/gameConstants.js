@@ -29,5 +29,5 @@ export default {
     RESPAWN_INVULNERABILITY: 200,
 
     // Sound
-    PLAY_SOUNDTRACK: false
+    PLAY_SOUNDTRACK: true
 };
