@@ -12,7 +12,7 @@ Space		- shoot
 F11			- full screen   
      
 **Demo:**    
-http://fixeg.github.io/jsAsteroids/    
+https://mordvinkinm.github.io/jsAsteroids/
      
 ===========     
     
