@@ -14,9 +14,9 @@
   "description": "jsAsteroids",
   "main": "src/app.js",
   "scripts": {
-    "build:dev": "node_modules/.bin/webpack --config webpack.dev.js",
-    "build:prod": "node_modules/.bin/webpack --config webpack.prod.js",
-    "start:dev": "node_modules/.bin/webpack --config webpack.dev.js; http-server"
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js",
+    "start:dev": "webpack --config webpack.dev.js && http-server"
   },
   "repository": {
     "type": "git",
