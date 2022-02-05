@@ -17,7 +17,9 @@
   "scripts": {
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
-    "start:dev": "webpack --config webpack.dev.js && http-server ./dist"
+    "start": "http-server ./dist",
+    "start:dev": "npm run build:dev && npm run start",
+    "start:prod": "npm run build:prod && npm run start"
   },
   "repository": {
     "type": "git",
