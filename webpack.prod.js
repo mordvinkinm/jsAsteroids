@@ -1,6 +1,6 @@
-var webpack = require('webpack');
-var webpackMerge = require('webpack-merge');
-var commonConfig = require('./webpack.common.js');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge').merge;
+const commonConfig = require('./webpack.common.js');
 
 module.exports = webpackMerge(commonConfig, {
     optimization: {
@@ -9,7 +9,5 @@ module.exports = webpackMerge(commonConfig, {
     mode: 'production',
     output: {
         filename: 'release/app.bundle.js'
-    },
-    plugins: [
-    ]
+    }
 });

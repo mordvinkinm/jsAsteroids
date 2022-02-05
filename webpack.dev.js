@@ -1,5 +1,5 @@
-var webpackMerge = require('webpack-merge');
-var commonConfig = require('./webpack.common.js');
+const webpackMerge = require('webpack-merge').merge;
+const commonConfig = require('./webpack.common.js');
 
 module.exports = webpackMerge(commonConfig, {
     mode: 'development',

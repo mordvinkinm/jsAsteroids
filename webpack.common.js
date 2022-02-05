@@ -1,9 +1,12 @@
-var path = require('path');
+const path = require('path');
+const WebpackCopy = require("copy-webpack-plugin");
+
+
 
 module.exports = {
     entry: './src/app.js',
     output: {
-        filename: 'release/app.bundle.js'
+        filename: 'app.bundle.js'
     },
     resolve: {
         alias: {
@@ -27,5 +30,14 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        new WebpackCopy({
+            patterns: [
+                { from: 'libs', to: 'libs' },
+                { from: 'res', to: 'res' },
+                { from: 'index.html', to: 'index.html'}
+            ],
+        }),
+    ],
 };

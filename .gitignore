@@ -1,6 +1,9 @@
-node_modules/*
-release/*
+# IDE
 .vs/*
 
+# NPM
+node_modules/*
+
+# Build Artifacts
+dist/*
 *.log
-*.suo
