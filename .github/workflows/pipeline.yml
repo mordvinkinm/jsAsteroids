@@ -5,7 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,11 +28,11 @@ jobs:
     - name: Install Dependencies
       run: npm ci
     
-    - name: Build 
+    - name: Build Application
       run: npm run build:prod
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v2
       with:
-        name: jsAsteroids Release
-        path: dist/*
+        name: jsAsteroids-release
+        path: dist/
